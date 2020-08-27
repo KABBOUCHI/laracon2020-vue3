@@ -42,6 +42,7 @@ export default {
         ...$data,
         ...$data.attrs,
         href: $props.href,
+        // TODO: data.on,
         onClick: event => {
           if ($data.on && $data.on.click) {
             $data.on.click(event)
