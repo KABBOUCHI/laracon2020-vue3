@@ -1,4 +1,4 @@
-import { InertiaApp } from '@inertiajs/vue/src'
+import { InertiaApp } from './../../inertia-vue/src'
 import { createApp, h } from 'vue'
 
 const el = document.getElementById('app')

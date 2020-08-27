@@ -1,6 +1,7 @@
 import { Inertia } from '@inertiajs/inertia'
 import Link from './link'
 import Remember from './remember'
+import { h } from 'vue'
 
 let app = {}
 
@@ -39,11 +40,11 @@ export default {
       },
     })
   },
-  render(h) {
+  render() {
     if (this.component) {
       const child = h(this.component, {
         key: this.key,
-        props: this.props,
+        ...this.props,
       })
 
       if (this.component.layout) {
@@ -57,10 +58,10 @@ export default {
       return child
     }
   },
-  install(Vue) {
-    Object.defineProperty(Vue.prototype, '$inertia', { get: () => Inertia })
-    Object.defineProperty(Vue.prototype, '$page', { get: () => app.props })
-    Vue.mixin(Remember)
-    Vue.component('InertiaLink', Link)
+  install(app) {
+    app.config.globalProperties.$inertia = Inertia
+    app.config.globalProperties.$page = app.props
+    app.mixin(Remember)
+    app.component('InertiaLink', Link)
   },
 }
