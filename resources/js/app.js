@@ -1,17 +1,16 @@
-import { InertiaApp } from '@inertiajs/inertia-vue'
-import Vue from 'vue'
+import { InertiaApp } from '@inertiajs/vue/src'
+import { createApp, h } from 'vue'
 
 Vue.use(InertiaApp)
-Vue.config.productionTip = false
 
-const app = document.getElementById('app')
+const el = document.getElementById('app')
 
-new Vue({
+const app = createApp({
   render: h =>
     h(InertiaApp, {
-      props: {
-        initialPage: JSON.parse(app.dataset.page),
-        resolveComponent: name => require(`./Pages/${name}`).default,
-      },
+      initialPage: JSON.parse(el.dataset.page),
+      resolveComponent: name => require(`./Pages/${name}`).default,
     }),
-}).$mount(app)
+})
+app.use(InertiaApp)
+app.mount(el)

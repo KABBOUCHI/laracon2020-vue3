@@ -11,4 +11,6 @@ const mix = require('laravel-mix')
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
+require('laravel-mix-vue3')
+
+mix.vue3('resources/js/app.js', 'public/js')
