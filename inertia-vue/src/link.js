@@ -1,4 +1,5 @@
 import { Inertia, shouldIntercept } from '@inertiajs/inertia'
+import { h } from 'vue'
 
 export default {
   functional: true,
@@ -30,36 +31,37 @@ export default {
     only: {
       type: Array,
       default: () => [],
-    }
+    },
   },
-  render(h, { props, data, children }) {
-    return h('a', {
-      ...data,
-      attrs: {
-        ...data.attrs,
-        href: props.href,
-      },
-      on: {
-        ...(data.on || {}),
-        click: event => {
-          if (data.on && data.on.click) {
-            data.on.click(event)
+  render() {
+    const { $props, $data } = this
+    const children = this.$slots.default ? this.$slots.default() : []
+    return h(
+      'a',
+      {
+        ...$data,
+        ...$data.attrs,
+        href: $props.href,
+        onClick: event => {
+          if ($data.on && $data.on.click) {
+            $data.on.click(event)
           }
 
           if (shouldIntercept(event)) {
             event.preventDefault()
 
-            Inertia.visit(props.href, {
-              data: props.data,
-              method: props.method,
-              replace: props.replace,
-              preserveScroll: props.preserveScroll,
-              preserveState: props.preserveState,
-              only: props.only,
+            Inertia.visit($props.href, {
+              data: $props.data,
+              method: $props.method,
+              replace: $props.replace,
+              preserveScroll: $props.preserveScroll,
+              preserveState: $props.preserveState,
+              only: $props.only,
             })
           }
         },
       },
-    }, children)
+      children
+    )
   },
 }
