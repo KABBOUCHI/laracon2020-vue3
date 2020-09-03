@@ -58,10 +58,15 @@ export default {
       return child
     }
   },
-  install(app) {
-    app.config.globalProperties.$inertia = Inertia
-    app.config.globalProperties.$page = app.props
-    app.mixin(Remember)
-    app.component('InertiaLink', Link)
+  install(vueApp) {
+    Object.defineProperty(vueApp.config.globalProperties, '$inertia', {
+      get: () => Inertia,
+    })
+    Object.defineProperty(vueApp.config.globalProperties, '$page', {
+      get: () => app.props,
+    })
+
+    vueApp.mixin(Remember)
+    vueApp.component('InertiaLink', Link)
   },
 }
