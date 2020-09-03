@@ -18,9 +18,7 @@ export default {
       this.$options.remember = { data: [this.$options.remember.data] }
     }
 
-    const stateKey = this.$options.remember.key instanceof Function
-      ? this.$options.remember.key()
-      : this.$options.remember.key
+    const stateKey = this.$options.remember.key instanceof Function ? this.$options.remember.key() : this.$options.remember.key
 
     const restored = Inertia.restore(stateKey)
 
@@ -29,12 +27,16 @@ export default {
         this[key] = restored[key]
       }
 
-      this.$watch(key, () => {
-        Inertia.remember(
-          this.$options.remember.data.reduce((data, key) => ({ ...data, [key]: this[key] }), {}),
-          stateKey
-        )
-      }, { immediate: true, deep: true })
+      this.$watch(
+        key,
+        () => {
+          Inertia.remember(
+            this.$options.remember.data.reduce((data, key) => ({ ...data, [key]: JSON.parse(JSON.stringify(this[key])) }), {}),
+            stateKey
+          )
+        },
+        { immediate: true, deep: true }
+      )
     })
   },
 }
